@@ -19,7 +19,7 @@ for split in split_folder:
 
 def copy_files(file_list, dir, class_name):
     for file in file_list:
-      src = os.path.join(SOURCE_DIR, dir)
+      src = os.path.join(SOURCE_DIR, class_name, file)
       dst = os.path.join(OUTPUT_DIR, dir, class_name, file)
       shutil.copy2(src, dst)
 
@@ -36,13 +36,17 @@ def split_data(class_name):
     validation_files = files[n_train_files:n_train_files + n_validation_files]
     test_files = files[n_train_files + n_validation_files:]
 
-    print("Start splitting and copying files...")
+    print(f"Start splitting and copying files for {class_name}...")
+    print(f"Total files: {n_files}")
+    print(f"Train files: {len(train_files)}")
+    print(f"Validation files: {len(validation_files)}")
+    print(f"Test files: {len(test_files)}")
 
     copy_files(train_files, "train", class_name)
-    copy_files(train_files, "validation", class_name)
-    copy_files(train_files, "test", class_name)
+    copy_files(validation_files, "validation", class_name)
+    copy_files(test_files, "test", class_name)
 
-    print("Files split and copy successful!")
+    print(f"Files split and copy successful for {class_name}!")
 
 split_data("cats")
 split_data("dogs")
